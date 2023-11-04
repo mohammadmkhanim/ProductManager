@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 
-namespace Core
+namespace Core.Entities
 {
     public class User : IdentityUser
     {
