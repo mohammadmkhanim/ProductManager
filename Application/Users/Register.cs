@@ -11,13 +11,13 @@ namespace Application.Users
 {
     public class Register
     {
-        public class Command : IRequest<Result<bool>>
+        public class Command : IRequest<Result<Unit>>
         {
             public string Username { get; set; }
             public string Password { get; set; }
         }
 
-        public class Handler : IRequestHandler<Command, Result<bool>>
+        public class Handler : IRequestHandler<Command, Result<Unit>>
         {
             private readonly ProductManagerContext _context;
             private readonly UserManager<User> _userManager;
@@ -30,17 +30,17 @@ namespace Application.Users
                 _mapper = mapper;
             }
 
-            public async Task<Result<bool>> Handle(Command request, CancellationToken cancellationToken)
+            public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
             {
                 var user = _mapper.Map<User>(request);
                 var result = await _userManager.CreateAsync(user, request.Password);
                 if (result.Succeeded)
                 {
-                    return Result<bool>.Success((int)HttpStatusCode.OK, result.Succeeded);
+                    return Result<Unit>.Success((int)HttpStatusCode.Created, Unit.Value);
                 }
                 else
                 {
-                    return Result<bool>.Failure((int)HttpStatusCode.BadRequest, result.Errors.FirstOrDefault().Description.ToString());
+                    return Result<Unit>.Failure((int)HttpStatusCode.BadRequest, result.Errors.FirstOrDefault().Description.ToString());
                 }
             }
         }

@@ -11,7 +11,6 @@ namespace API.Controllers;
 
 public class AuthController : BaseController<AuthController>
 {
-    private readonly UserManager<IdentityUser> _userManager;
     public AuthController(IMediator mediator, ILogger<AuthController> logger, IConfiguration configuration) : base(mediator, logger: logger, configuration: configuration)
     {
     }
